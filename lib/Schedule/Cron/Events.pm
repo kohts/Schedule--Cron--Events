@@ -6,7 +6,7 @@ use Set::Crontab;
 use Time::Local;
 use vars qw($VERSION @monthlens);
 
-($VERSION) = ('$Revision: 1.8 $' =~ /([\d\.]+)/ );
+($VERSION) = ('$Revision: 1.9 $' =~ /([\d\.]+)/ );
 @monthlens = ( 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
 ## PUBLIC INTERFACE
@@ -525,6 +525,10 @@ undef, not a fatal error. If you supply a line like 'foo bar */15 baz qux /bin/f
 =head1 DEPENDENCIES
 
 Set::Crontab, Time::Local, Carp. Date::Manip is no longer required thanks to B Paulsen.
+
+=head1 MAINTENANCE
+
+Since January 2012 maintained by Petya Kohts (petya.kohts at gmail.com)
 
 =head1 COPYRIGHT
 
