@@ -34,7 +34,7 @@ my $date1 = [ 10, 45, 12, 23, 4, 111 ];
 
 my $obj_crontab = Schedule::Cron::Events->new( $crontime, Date => $date1 );
 
-Test::plan(tests => 5);
+Test::plan(tests => 6);
 
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 23, 4, 111], "23 of May, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 26, 4, 111], "26 of May, 2011");
