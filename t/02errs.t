@@ -1,5 +1,8 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl
+
 use strict;
+use warnings;
+
 use lib './lib';
 use Test;
 use Schedule::Cron::Events;
@@ -31,55 +34,55 @@ ok(! $obj);
 
 # not a crontab line either
 eval {
-	$obj = new Schedule::Cron::Events("As I was going to Aylesbury all on a market day,\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("As I was going to Aylesbury all on a market day,\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 # bad crontab lines
 eval {
-	$obj = new Schedule::Cron::Events("63 * * * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("63 * * * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* 24 * * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* 24 * * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* * 33 * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* * 33 * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* * 0 * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* * 0 * * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* * * 14 * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* * * 14 * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* * * 0 * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* * * 0 * /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 eval {
-	$obj = new Schedule::Cron::Events("* * * * 9 /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
+  $obj = new Schedule::Cron::Events("* * * * 9 /bin/never\n", Date => [0, 0, 15, 14, 1, 101]);
 };
 ok($@ ne '');
 TRACE($@);
 
 sub TRACE {
-	my $msg = shift;
-#	print "## $msg\n";
+  my $msg = shift;
+# print "## $msg\n";
 }

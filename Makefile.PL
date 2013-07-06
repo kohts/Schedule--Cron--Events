@@ -16,6 +16,10 @@ WriteMakefile(
 				Time::Local => 0,
 				Set::Crontab => 0,
 			},
+	TEST_REQUIRES => {
+			DateTime => 0,
+			Test::Deep => 0,
+			},
 	EXE_FILES => [
 		'cron_event_predict.plx',
 	],

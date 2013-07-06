@@ -1,10 +1,13 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl
+
 use strict;
+use warnings;
+
 use lib './lib';
 use Test;
 
 BEGIN {
-	$ENV{'TZ'} ||= 'GMT';
+  $ENV{'TZ'} ||= 'GMT';
 }
 
 use Schedule::Cron::Events;
@@ -14,8 +17,8 @@ use Data::Dumper;
 # $Id: 01base.t,v 1.3 2002/09/25 23:47:45 piers Exp $
 
 #*Schedule::Cron::Events::TRACE = sub {
-#	my $str = shift;
-#	print "## $str\n";
+# my $str = shift;
+# print "## $str\n";
 #};
 
 my $obj;
@@ -35,7 +38,7 @@ ok($obj); # object creation
 my $now = time();
 @rv = $obj->nextEvent;
 my $next = timelocal( @rv );
-ok( $next - $now < 62 );	# event should occure in about a minute's time
+ok( $next - $now < 62 );  # event should occure in about a minute's time
 
 
 # set to 1 day in the future - the 1 minute window is to allow boundary conditions and leap seconds
@@ -301,22 +304,22 @@ $obj = new Schedule::Cron::Events('*/37 19 11 3,11 0,2 /dev/flux/capacitor', Dat
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 3, 10, 85]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 3, 10, 85]);	# nov 3 sunday
+cmpd(\@rv, [0, 37, 19, 3, 10, 85]); # nov 3 sunday
 
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 5, 10, 85]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 5, 10, 85]);	# nov 5 tuesday
+cmpd(\@rv, [0, 37, 19, 5, 10, 85]); # nov 5 tuesday
 
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 10, 10, 85]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 10, 10, 85]);	# nov 10 sunday
+cmpd(\@rv, [0, 37, 19, 10, 10, 85]);  # nov 10 sunday
 
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 11, 10, 85]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 11, 10, 85]);	# nov 11 monday
+cmpd(\@rv, [0, 37, 19, 11, 10, 85]);  # nov 11 monday
 
 for (1..10) { $obj->nextEvent; }
 # skip nov 12, 17, 19, 24, 26
@@ -324,12 +327,12 @@ for (1..10) { $obj->nextEvent; }
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 2, 2, 86]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 2, 2, 86]);	# mar 2 sunday
+cmpd(\@rv, [0, 37, 19, 2, 2, 86]);  # mar 2 sunday
 
 @rv = $obj->nextEvent;
 cmpd(\@rv, [0, 0, 19, 4, 2, 86]);
 @rv = $obj->nextEvent;
-cmpd(\@rv, [0, 37, 19, 4, 2, 86]);	# mar 4 tuesday
+cmpd(\@rv, [0, 37, 19, 4, 2, 86]);  # mar 4 tuesday
 
 $obj->resetCounter;
 
@@ -365,21 +368,21 @@ cmpd(\@rv, [0, 0, 13, 29, 1, 84]);
 # end of routine tests
 
 sub cmpd {
-	my @got = @{ $_[0] };
-	my @exp = @{ $_[1] };
-	if (@got == @exp) {
-		my $flag = 0;
-		for (0 .. $#got) {
-			$flag++ unless ($got[$_] == $exp[$_]);
-		}
-		if ($flag) {
-			warn "Comparing Got <" . join('><', @got) . "> and Expected <" . join('><', @exp) . "> failed";
-			ok(0);			
-		} else {
-			ok(1);
-		}
-	} else {
-		warn "Comparing Got <" . join('><', @got) . "> and Expected <" . join('><', @exp) . "> failed";
-		ok(0);
-	}
+  my @got = @{ $_[0] };
+  my @exp = @{ $_[1] };
+  if (@got == @exp) {
+    my $flag = 0;
+    for (0 .. $#got) {
+      $flag++ unless ($got[$_] == $exp[$_]);
+    }
+    if ($flag) {
+      warn "Comparing Got <" . join('><', @got) . "> and Expected <" . join('><', @exp) . "> failed";
+      ok(0);      
+    } else {
+      ok(1);
+    }
+  } else {
+    warn "Comparing Got <" . join('><', @got) . "> and Expected <" . join('><', @exp) . "> failed";
+    ok(0);
+  }
 }
