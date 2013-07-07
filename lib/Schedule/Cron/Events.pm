@@ -35,6 +35,27 @@ sub new {
     @date = ( localtime($opts{'Seconds'}) )[0..5];
   } elsif (exists $opts{'Date'}) {
     @date = @{ $opts{'Date'} };
+
+    # input validation
+    # https://rt.cpan.org/Ticket/Display.html?id=68393
+    if ($date[0] < 0 || $date[0] > 59) {
+      confess("Invalid value for seconds [" . $date[0] . "]");
+    }
+    if ($date[1] < 0 || $date[1] > 59) {
+      confess("Invalid value for minutes [" . $date[1] . "]");
+    }
+    if ($date[2] < 0 || $date[2] > 23) {
+      confess("Invalid value for hours [" . $date[2] . "]");
+    }
+    if ($date[3] < 1 || $date[2] > 31) {
+      confess("Invalid value for day of month [" . $date[3] . "]");
+    }
+    if ($date[4] < 0 || $date[4] > 11) {
+      confess("Month must be between 0 (January) and 11 (December), got [" . $date[4] . "]");
+    }
+    if (time() < 2**31 && $date[5] > 137) {
+      confess("Year must be less than 137 (for example, if you need 2013 year, pass 113)");
+    }
   } else {
     @date = ( localtime(time()) )[0..5];
   }

@@ -10,7 +10,7 @@ use strict;
 use warnings;
 
 use lib './lib';
-use Test;
+use Test::More;
 use Test::Deep;
 
 use Schedule::Cron::Events;
@@ -29,16 +29,24 @@ use DateTime;
 # 14:00 on Monday or Thursday
 my $crontime = "00 14 * * 1,4"; # 1,4
 
-# 12:45, 23 of May, 2011
-my $date1 = [ 10, 45, 12, 23, 4, 111 ];
+plan(tests => 7);
 
-my $obj_crontab = Schedule::Cron::Events->new( $crontime, Date => $date1 );
-
-Test::plan(tests => 6);
-
+#                                                                 12:45, 23 of May, 2011
+my $obj_crontab = Schedule::Cron::Events->new( $crontime, Date => [ 10, 45, 12, 23, 4, 111 ] );
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 23, 4, 111], "23 of May, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 26, 4, 111], "26 of May, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 30, 4, 111], "30 of May, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 2, 5, 111],  "02 of June, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 6, 5, 111],  "06 of June, 2011");
 cmp_deeply([$obj_crontab->nextEvent()], [0, 0, 14, 9, 5, 111],  "09 of June, 2011");
+
+my $r = eval {
+    my $obj_crontab1 = Schedule::Cron::Events->new( $crontime, Date => [ 10, 45, 12, 23, 4, 2013 ] );
+};
+if (time() < 2**31 && $@ =~ /Year must be less/) {
+    pass("invalid year");
+}
+else {
+    fail("invalid year");
+}
+
