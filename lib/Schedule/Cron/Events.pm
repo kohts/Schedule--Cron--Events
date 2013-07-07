@@ -17,6 +17,9 @@ sub new {
   if ($cronline =~ /^\s*#/) { return undef; }
   if ($cronline =~ /^\w+=\S+/) { return undef; }
   if ($cronline !~ /^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+/) { return undef; }
+
+  # https://rt.cpan.org/Ticket/Display.html?id=53899
+  $cronline =~ s/^\s+//g;
   
   my %opts = @_;
 
