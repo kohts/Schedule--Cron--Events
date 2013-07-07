@@ -6,7 +6,7 @@ use Set::Crontab;
 use Time::Local;
 use vars qw($VERSION @monthlens);
 
-($VERSION) = ('$Revision: 1.10 $' =~ /([\d\.]+)/ );
+($VERSION) = ('$Revision: 1.91 $' =~ /([\d\.]+)/ );
 @monthlens = ( 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
 ## PUBLIC INTERFACE
