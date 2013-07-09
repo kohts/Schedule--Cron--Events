@@ -17,7 +17,6 @@ WriteMakefile(
         Set::Crontab => 0,
       },
   TEST_REQUIRES => {
-      DateTime => 0,
       Test::Deep => 0,
       Test::More => 0,
       },

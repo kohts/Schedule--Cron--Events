@@ -23,7 +23,6 @@ if ($@) {
 use Schedule::Cron::Events;
 
 use Data::Dumper;
-use DateTime; 
 
 #              field          allowed values
 #              -----          --------------
