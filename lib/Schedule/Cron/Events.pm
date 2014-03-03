@@ -124,7 +124,7 @@ sub setCounterToDate {
   $theMon++;
   $self->{'pyear'} += 1900;
 
-  # nested ifs... to set the next occurence time
+  # nested ifs... to set the next occurrence time
   my ($exact, $pos) = contains($theMon, @{ $self->{'e'} });
   $self->{'pa'} = $pos;
   if ($exact) {
@@ -274,7 +274,7 @@ sub set_f {
   my $startday = _DayOfWeek($monthnum, 1, $self->{'pyear'});
   # add in, if needed, the selected weekdays
   foreach my $daynum (@{ $self->{'ranges'}{'weekdays'} }) {
-    my $offset = $daynum - $startday; # 0 - 6 = -6; start on saturday, want a sunday 
+    my $offset = $daynum - $startday; # 0 - 6 = -6; start on Saturday, want a Sunday 
     for my $week (1, 8, 15, 22, 29, 36) {
       my $monthday = $week + $offset;
       next if $monthday < 1;
@@ -510,7 +510,7 @@ the desired year number *minus 1900*
 
 Returns a new object for the specified line from the crontab. The first 5 fields of the line
 are actually parsed by Set::Crontab, which should be able to handle the original crontab(5) ranges
-aswell as Vixie cron ranges and the like. It's up to you to supply a valid line - if you supply
+as well as Vixie cron ranges and the like. It's up to you to supply a valid line - if you supply
 a comment line, an environment variable setting line, or a line which does not seem to begin with
 5 fields (e.g. a blank line), this method returns undef.
 
