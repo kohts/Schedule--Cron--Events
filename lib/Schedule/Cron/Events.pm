@@ -6,7 +6,7 @@ use Set::Crontab;
 use Time::Local;
 use vars qw($VERSION @monthlens);
 
-($VERSION) = ('$Revision: 1.93 $' =~ /([\d\.]+)/ );
+($VERSION) = ('$Revision: 1.94 $' =~ /([\d\.]+)/ );
 @monthlens = ( 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
 ## PUBLIC INTERFACE
@@ -79,6 +79,7 @@ sub new {
     'pyear' => 0, # the 'current' year
     'initdate' => \@date,
     'initline' => $cronline,
+    'set_e_checked_years' => [],
   };
   
   # now fill the static sets with the sets from Set::Crontab
@@ -257,6 +258,7 @@ sub getdate {
   return (0, $self->{'h'}[$self->{'pd'}], $self->{'g'}[$self->{'pc'}], $self->{'f'}[$self->{'pb'}], $self->{'e'}[$self->{'pa'}]-1, $self->{'pyear'}-1900);
 }
 
+# returns a list of days during which next event is possible
 sub set_f {
   my $self = shift || confess "Must be called as a method";
 
@@ -282,6 +284,7 @@ sub set_f {
       $days{$monthday} = 1;
     }
   }
+
   @{ $self->{'f'} } = sort { $a <=> $b } keys %days;
   return scalar @{ $self->{'f'} };
 }
@@ -314,17 +317,33 @@ sub inc_f {
   }
 }
 
+# increments currents month, skips to the next year
+# when no months left during the current year
+#
+# if there're no possible months during 5 years in a row, bails out:
+# https://rt.cpan.org/Public/Bug/Display.html?id=109246
+#
 sub inc_e {
   my $self = shift || confess "Must be called as a method";
   $self->{'pa'}++;
   if ($self->{'pa'} == 0 || $self->{'pa'} > $#{$self->{'e'}}) {
     $self->{'pa'} = 0;
     $self->{'pyear'}++;
+
+    # https://rt.cpan.org/Public/Bug/Display.html?id=109246
+    push (@{$self->{'set_e_checked_years'}}, $self->{'pyear'});
+    if (scalar(@{$self->{'set_e_checked_years'}} > 5)) {
+      confess("Cron line [" . $self->{'initline'} . "] does not define any valid point in time, checked years: [" .
+          join(",", @{$self->{'set_e_checked_years'}}) .
+          "] (ex, 31th of February) ");
+    }
   }
   my $rv = $self->set_f();
   unless ($rv) { ###
     $self->inc_e;
   }
+
+  $self->{'set_e_checked_years'} = [];
 }
 
 
