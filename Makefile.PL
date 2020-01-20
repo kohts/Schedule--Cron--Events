@@ -26,11 +26,8 @@ WriteMakefile(
   META_MERGE => {
     'meta-spec' => { version => 2 },
     resources => {
-      repository => {
-        type => 'git',
-        url  => 'https://github.com/kohts/Schedule--Cron--Events.git',
-        web  => 'https://github.com/kohts/Schedule--Cron--Events',
-      },
+      bugtracker => 'https://github.com/kohts/Schedule--Cron--Events/issues',
+      repository => 'https://github.com/kohts/Schedule--Cron--Events',
     },
   },
 );
